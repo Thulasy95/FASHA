@@ -34,23 +34,7 @@ public class BatchAccountUpdateSalesRevenue implements Database.Batchable<sObjec
             
             // Si on a des comptes, on appelle le service métier pour mettre à jour le chiffre d'affaires du compte
             if(!accountIds.isEmpty()){
-
-                // Découpage en sous-lots de 100 Ids max pour éviter les limites DML
-                //Tous les comptes du batch sont mis à jour, 100 par 100
-                Integer batchSize = 100;
-                List<Id> idsList = new List<Id>(accountIds);
-                for(Integer i = 0; i < idsList.size(); i += batchSize) {
-
-                    //Création d'un sous lot
-                    List<Id> subListIds = new List<Id>();
-                    Integer endIndex = Math.min(i + batchSize, idsList.size());
-                    for (Integer j = i; j < endIndex; j++) {
-                        subListIds.add(idsList[j]);
-                    }                    
-                    
-                    accountService.updateSalesRevenue(new Set<Id>(subListIds));
-
-                }
+                accountService.updateSalesRevenue(accountIds);
             }
         }
 
