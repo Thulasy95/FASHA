@@ -1,7 +1,41 @@
-<apex:page controller="MyTeamOrdersController" >
-    <div>
-        <h1>
-            Sum of my team orders: <apex:outputText value="{!SumOders}" />
-        </h1>
-    </div>
+<apex:page controller="MyTeamOrdersController">
+    <apex:pageMessages />
+    <apex:pageBlock title="Total of my team's orders">
+        <apex:outputPanel>
+            <h2>
+                Total orders : 
+                <apex:outputText value="{0, number, ###,##0.00}">
+                    <apex:param value="{!sumOrders}" />
+                </apex:outputText>
+                €
+            </h2>
+        </apex:outputPanel>
+    </apex:pageBlock>
+
+    <apex:pageBlock title="My team orders list">
+        <apex:pageBlockTable value="{!teamOrders}" var="ord">
+            
+            <apex:column headerValue="Order Number">
+                <apex:outputLink value="/{!ord.Id}">{!ord.OrderNumber}</apex:outputLink>
+            </apex:column>
+
+            <apex:column value="{!ord.AccountId}" headerValue="Account Name" />
+
+            <apex:column headerValue="Order Amount">
+                <apex:outputText value="{0,number,###,##0.00}">
+                    <apex:param value="{!ord.TotalAmount}" />
+                </apex:outputText>
+                €
+            </apex:column>
+
+            <apex:column value="{!ord.Status}" headerValue="Status" />
+            
+            <apex:column headerValue="Order Start Date">
+                <apex:outputText value="{0,date,dd/MM/yyyy}">
+                    <apex:param value="{!ord.EffectiveDate}" />
+                </apex:outputText>
+            </apex:column>
+
+        </apex:pageBlockTable>
+    </apex:pageBlock>
 </apex:page>
